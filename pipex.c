@@ -6,12 +6,20 @@
 /*   By: snocita <snocita@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:39:58 by snocita           #+#    #+#             */
-/*   Updated: 2023/02/16 13:00:31 by snocita          ###   ########.fr       */
+/*   Updated: 2023/02/16 14:36:15 by snocita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief Looks into the ENV file and 
+ * compares every indices with the voice "PATH".
+ * returns the whole path minus "PATH="
+ * @return /usr/local/bin:/usr/bin:
+ * /bin:/usr/sbin:/sbin:/usr/local/munki:
+ * /opt/X11/bin:/Library/Apple/usr/bin
+ */
 char	*find_path(char **envp)
 {
 	while (ft_strncmp("PATH", *envp, 4))
@@ -19,29 +27,31 @@ char	*find_path(char **envp)
 	return (*envp + 5);
 }
 
+/**
+ * @brief Checks that the arguments are 5, 
+ * that the in/outfile is correctly connected to argv[1/-1],
+ * that the pipe was successfully created.
+ * @param pipex Is a struct with all the info regarding the pipe project
+ **/
 int	checkandopen(int argc, char *argv[], t_pipex *pipex)
 {
 	if (argc != 5)
 	{
-		ft_putstr_fd(INPUTERR, 1);
-		return (1);
+		signalerr(INPUTERR);
 	}
 	pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile < 0)
 	{
-		ft_putstr_fd(INFILEERR, 1);
-		return (2);
+		signalerr(INFILEERR);
 	}
 	pipex->outfile = open(argv[argc - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
 	if (pipex->outfile < 0)
 	{
-		ft_putstr_fd(OUTFILEERR, 1);
-		return (3);
+		signalerr(OUTFILEERR);
 	}
 	if (pipe(pipex->fd) < 0)
 	{
-		ft_putstr_fd(PIPERR, 1);
-		return (4);
+		signalerr(PIPERR);
 	}
 	return (0);
 }
@@ -52,6 +62,12 @@ void	close_pipes(t_pipex *pipex)
 	close(pipex->fd[1]);
 }
 
+/**
+ * @brief Simulate a pipe operator
+ * @param argc Is the number of arguments passed into the program
+ * @param argv Is the argument vector 
+ * example -> argv[./pipex, infile.txt, "cat", "grep BROWN", outfile.txt]
+ */
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	pipex;

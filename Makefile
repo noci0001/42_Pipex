@@ -6,7 +6,7 @@
 #    By: snocita <snocita@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/14 17:31:46 by snocita           #+#    #+#              #
-#    Updated: 2023/02/15 17:58:19 by snocita          ###   ########.fr        #
+#    Updated: 2023/02/16 14:33:51 by snocita          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ RM		= rm -rf
 
 HEADER	= pipex.h
 
-SRCS	= pipex.c subprocesses.c freeprocesses.c
+SRCS	= pipex.c subprocesses.c freeprocesses.c error.c
 OBJS	= $(SRCS:.c=.o)
 OBJ_DIR = obj
 

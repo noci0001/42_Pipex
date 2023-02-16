@@ -6,7 +6,7 @@
 /*   By: snocita <snocita@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:26:25 by snocita           #+#    #+#             */
-/*   Updated: 2023/02/15 17:44:09 by snocita          ###   ########.fr       */
+/*   Updated: 2023/02/16 14:40:25 by snocita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,7 @@ void		second_subprocess(t_pipex pipex, char *argv[], char *envp[]);
 void		freemainprocess(t_pipex *pipex);
 void		freesubprocess(t_pipex *pipex);
 void		ft_putstr_fd(char *s, int fd);
+int			signalerr(char *err);
+int			msg(char *err);
 
 #endif
