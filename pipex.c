@@ -6,7 +6,7 @@
 /*   By: snocita <snocita@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:39:58 by snocita           #+#    #+#             */
-/*   Updated: 2023/02/15 18:24:05 by snocita          ###   ########.fr       */
+/*   Updated: 2023/02/16 13:00:31 by snocita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,19 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	pipex;
 
-	if (checkandopen(argc, argv, &pipex) == 0)
-	{
-		pipex.paths = find_path(envp);
-		pipex.cmd_paths = ft_split(pipex.paths, ':');
-		pipex.pid1 = fork();
-		if (pipex.pid1 == 0)
-		{
-			first_subprocess(pipex, argv, envp);
-		}
-		pipex.pid2 = fork();
-		if (pipex.pid2 == 0)
-		{
-			second_subprocess(pipex, argv, envp);
-		}
-		close_pipes(&pipex);
-		waitpid(pipex.pid1, NULL, 0);
-		waitpid(pipex.pid2, NULL, 0);
-		freemainprocess(&pipex);
+	if (checkandopen(argc, argv, &pipex) != 0)
 		return (0);
-	}
+	pipex.paths = find_path(envp);
+	pipex.cmd_paths = ft_split(pipex.paths, ':');
+	pipex.pid1 = fork();
+	if (pipex.pid1 == 0)
+		first_subprocess(pipex, argv, envp);
+	pipex.pid2 = fork();
+	if (pipex.pid2 == 0)
+		second_subprocess(pipex, argv, envp);
+	close_pipes(&pipex);
+	waitpid(pipex.pid1, NULL, 0);
+	waitpid(pipex.pid2, NULL, 0);
+	freemainprocess(&pipex);
+	return (0);
 }

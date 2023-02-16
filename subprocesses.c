@@ -6,7 +6,7 @@
 /*   By: snocita <snocita@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 16:53:39 by snocita           #+#    #+#             */
-/*   Updated: 2023/02/15 18:19:41 by snocita          ###   ########.fr       */
+/*   Updated: 2023/02/16 13:05:56 by snocita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ static char	*get_cmd(char **paths, char *cmd)
 
 void	first_subprocess(t_pipex pipex, char *argv[], char *envp[])
 {
-	printf("HELLO!");
+	// printf("CATALYSIS OF FIRST SUBPROCESS:");
 	dup2(pipex.fd[1], 1);
 	close(pipex.fd[0]);
 	dup2(pipex.infile, 0);
 	pipex.cmd_args = ft_split(argv[2], ' ');
-	printf("cmd_args: \t%s\n", pipex.cmd_args[0]);
-	printf("cmd_args: \t%s\n", pipex.cmd_args[2]);
-	printf("cmd_args: \t%s\n", pipex.cmd_args[3]);
-	printf("cmd_args: \t%s\n", pipex.cmd_args[4]);
+	// printf("cmd_args: \t%s\n", pipex.cmd_args[0]);
+	// printf("cmd_args: \t%s\n", pipex.cmd_args[2]);
+	// printf("cmd_args: \t%s\n", pipex.cmd_args[3]);
+	// printf("cmd_args: \t%s\n", pipex.cmd_args[4]);
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmd_args[0]);
 	if (!pipex.cmd)
 	{
